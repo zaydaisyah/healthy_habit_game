@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Habit Game: Find the Hero</title>
+    <!-- Retro Pixel Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="retro-game-cabinet">
+        
+        <!-- START SCREEN -->
+        <div id="start-screen" class="screen">
+            <!-- HUD Hearts on Start Screen too, matching reference image -->
+            <div class="start-hud-hearts">
+                <span class="heart-pixel filled">❤️</span>
+                <span class="heart-pixel filled">❤️</span>
+                <span class="heart-pixel filled">❤️</span>
+                <span class="heart-pixel filled">❤️</span>
+                <span class="heart-pixel filled">❤️</span>
+            </div>
+
+            <!-- Title & Subtitle banner -->
+            <div class="title-container">
+                <div class="game-brand-label">Healthy Habit Game: Find the Hero</div>
+                <h1 class="pixel-title">"CONTROL THE GAME,<br>DON'T LET IT CONTROL YOU"</h1>
+                <p class="pixel-subtitle">UNDERSTANDING AND PREVENTING GAMING ADDICTION AMONG KIDS</p>
+            </div>
+
+            <!-- Foreground elements matching reference image -->
+            <div class="scene-container">
+                <!-- Blonde Hero -->
+                <div class="pixel-character hero-blonde" title="Our Hero">
+                    <svg viewBox="0 0 16 20" width="100%" height="100%">
+                        <!-- Simple pixel art boy SVG -->
+                        <rect x="4" y="1" width="8" height="5" fill="#fbd38d"/>
+                        <rect x="3" y="2" width="10" height="3" fill="#fbd38d"/>
+                        <rect x="5" y="4" width="6" height="4" fill="#fdd6b5"/>
+                        <rect x="6" y="5" width="1" height="1" fill="#000"/>
+                        <rect x="9" y="5" width="1" height="1" fill="#000"/>
+                        <rect x="4" y="8" width="8" height="6" fill="#dd6b20"/>
+                        <rect x="4" y="14" width="8" height="1" fill="#ecc94b"/>
+                        <rect x="4" y="15" width="8" height="3" fill="#2b6cb0"/>
+                        <rect x="4" y="18" width="3" height="2" fill="#7b341e"/>
+                        <rect x="9" y="18" width="3" height="2" fill="#7b341e"/>
+                        <rect x="2" y="6" width="2" height="4" fill="#a0aec0"/>
+                        <rect x="1" y="8" width="4" height="1" fill="#4a5568"/>
+                    </svg>
+                </div>
+
+                <!-- Animated Campfire -->
+                <div class="pixel-campfire">
+                    <div class="fire-log"></div>
+                    <div class="fire-flame"></div>
+                </div>
+
+                <!-- Black Cat -->
+                <div class="pixel-character cat-black" title="Helper Cat">
+                    <svg viewBox="0 0 16 18" width="100%" height="100%">
+                        <!-- Pixel art cat SVG -->
+                        <rect x="3" y="1" width="2" height="2" fill="#1a202c"/>
+                        <rect x="11" y="1" width="2" height="2" fill="#1a202c"/>
+                        <rect x="4" y="3" width="8" height="6" fill="#1a202c"/>
+                        <rect x="5" y="5" width="2" height="2" fill="#ecc94b"/>
+                        <rect x="9" y="5" width="2" height="2" fill="#ecc94b"/>
+                        <rect x="6" y="6" width="1" height="1" fill="#000"/>
+                        <rect x="10" y="6" width="1" height="1" fill="#000"/>
+                        <rect x="8" y="7" width="1" height="1" fill="#a0aec0"/>
+                        <rect x="3" y="9" width="10" height="7" fill="#1a202c"/>
+                        <rect x="13" y="11" width="2" height="4" fill="#1a202c"/>
+                        <rect x="4" y="16" width="2" height="2" fill="#1a202c"/>
+                        <rect x="10" y="16" width="2" height="2" fill="#1a202c"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Start Menu Buttons -->
+            <div class="menu-container">
+                <button id="start-btn" class="pixel-btn orange">LET'S PLAY</button>
+                <button id="how-to-btn" class="pixel-btn orange">HOW TO PLAY</button>
+                <button id="about-btn" class="pixel-btn orange">CONTINUE</button>
+                <button class="pixel-btn orange music-toggle-btn">🔇 MUSIC OFF</button>
+            </div>
+        </div>
+
+        <!-- HOW TO PLAY MODAL (Retro style dialog) -->
+        <div id="how-to-modal" class="pixel-dialog hidden">
+            <h2 class="dialog-title">HOW TO PLAY</h2>
+            <div class="dialog-content">
+                <p>⭐ A series of scenarios will test your gaming habits.</p>
+                <p>⭐ Choose the healthy habit to save your score.</p>
+                <p>⭐ Choosing poorly depletes one heart ❤️!</p>
+                <p>⭐ Keep your hearts high to win the game!</p>
+            </div>
+            <button id="close-modal-btn" class="pixel-btn orange">OK</button>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="screen hidden">
+            <!-- HUD top bar (Responsive Grid/Flex Rows) -->
+            <div class="game-hud">
+                <div class="hud-stats-row">
+                    <div class="hud-left">
+                        <span class="hud-label">SCENARIO</span>
+                        <span class="hud-value"><span id="current-step">1</span>/<span id="total-steps">4</span></span>
+                    </div>
+                    
+                    <div class="hud-center">
+                        <span class="hud-label">SCORE:</span>
+                        <span class="hud-value" id="score-val">0000</span>
+                    </div>
+
+                    <div class="hud-right">
+                        <div id="hearts-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hud-controls-row">
+                    <button class="pixel-btn orange music-toggle-btn hud-control-btn">🔇 MUSIC OFF</button>
+                    <button id="hud-home-btn" class="pixel-btn orange hud-control-btn">🏠 HOME</button>
+                </div>
+            </div>
+
+            <!-- Scenario Box -->
+            <main id="scenario-section">
+                <div class="rpg-dialog-box scenario-box">
+                    <div class="scenario-layout">
+                        <div class="scenario-image-frame">
+                            <img id="scenario-image" src="" alt="Scenario Scene">
+                            <div id="image-fallback-svg" class="hidden"></div>
+                        </div>
+                        <div class="scenario-text-container">
+                            <p id="scenario-text">Loading scenario...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Choices Box -->
+                <div id="choices-container" class="choices-box">
+                    <!-- Populated dynamically by JS -->
+                </div>
+
+                <!-- RPG Dialogue Feedback Box -->
+                <div id="feedback-display" class="rpg-dialog-box feedback-box hidden">
+                    <div class="feedback-layout">
+                        <span id="feedback-icon" class="feedback-avatar">🤔</span>
+                        <div class="feedback-text-content">
+                            <h3 id="feedback-title">FEEDBACK</h3>
+                            <p id="feedback-text">This is immediate retro feedback text explaining your choices.</p>
+                        </div>
+                    </div>
+                    <button id="next-button" class="pixel-btn orange next-btn">NEXT ➜</button>
+                </div>
+            </main>
+        </div>
+
+        <!-- GAME END SCREEN (Victory / Game Over) -->
+        <div id="game-end-screen" class="screen hidden">
+            <div class="end-card-box rpg-dialog-box">
+                <div class="end-avatar" id="end-avatar">🏆</div>
+                <h2 id="end-title" class="pixel-title">VICTORY!</h2>
+                
+                <p id="congrats-text" class="end-message">You are a Healthy Gaming Hero!</p>
+                <div class="score-display-box">
+                    <span class="hud-label">FINAL SCORE</span>
+                    <span class="hud-value" id="final-score-val">0000</span>
+                    <p id="final-score-text" class="end-details-text">You completed 4 out of 4 scenarios.</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="restart-button" class="pixel-btn orange">PLAY AGAIN? 🔄</button>
+                    <button id="go-to-conclusion-btn" class="pixel-btn orange">CONCLUSION ➜</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONCLUSION SCREEN (SPA Embedded) -->
+        <div id="conclusion-screen" class="screen hidden">
+            <div class="conclusion-card rpg-dialog-box">
+                <div class="end-avatar">🏆</div>
+                <h1 class="rules-title">HEALTHY GAMER GOLDEN RULES</h1>
+                
+                <div class="rules-list">
+                    <div class="rule-item">
+                        <span class="rule-icon">🕒</span>
+                        <div class="rule-text">
+                            <div class="rule-title">BALANCE STUDY & PLAY</div>
+                            <div class="rule-desc">Homework and sleep come first! Game only when your chores and studies are done.</div>
+                        </div>
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-icon">👀</span>
+                        <div class="rule-text">
+                            <div class="rule-title">TAKE REGULAR BREAKS</div>
+                            <div class="rule-desc">Stand up, stretch, and drink water every hour to protect your eyes and body!</div>
+                        </div>
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-icon">👨‍👩‍👧‍👦</span>
+                        <div class="rule-text">
+                            <div class="rule-title">CONNECT WITH FAMILY</div>
+                            <div class="rule-desc">Dine and chat with family. Real-life connections are better than any high score.</div>
+                        </div>
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-icon">🧘‍♂️</span>
+                        <div class="rule-text">
+                            <div class="rule-title">CONTROL YOUR EMOTIONS</div>
+                            <div class="rule-desc">Feeling angry or upset? Pause the game and cool down. You are in control!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="conclusion-replay-btn" class="pixel-btn orange">🔄 PLAY AGAIN</button>
+                    <button id="conclusion-home-btn" class="pixel-btn orange">🏠 HOME</button>
+                    <button class="pixel-btn orange music-toggle-btn">🔇 MUSIC OFF</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
