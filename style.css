@@ -1,0 +1,591 @@
+/* Reset & Global Retro Variables */
+:root {
+    --retro-black: #080a10;
+    --retro-white: #ffffff;
+    --retro-blue: #101c42;
+    --retro-orange: #d87324;
+    --retro-orange-dark: #8c420e;
+    --retro-green: #38b000;
+    --retro-green-dark: #007200;
+    --retro-yellow: #ffb703;
+    
+    --pixel-font-title: 'Press Start 2P', monospace;
+    --pixel-font-body: 'VT323', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    image-rendering: pixelated; /* Ensures pixel art doesn't blur */
+}
+
+body {
+    background-color: #12141c;
+    color: var(--retro-white);
+    font-family: var(--pixel-font-body);
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* Retro Cabinet Screen Container */
+#retro-game-cabinet {
+    width: 100%;
+    max-width: 880px;
+    background-color: var(--retro-black);
+    border: 8px solid #333842;
+    outline: 8px solid #1a1c23;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.5);
+    position: relative;
+    min-height: 560px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* General Screen setup */
+.screen {
+    position: relative;
+    width: 100%;
+    min-height: 560px;
+    height: auto;
+    background-image: url('images/pixel_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 60px 24px;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------- */
+/* START SCREEN DESIGN (Matches Reference Image)       */
+/* ---------------------------------------------------- */
+
+#start-screen {
+    justify-content: space-between;
+}
+
+/* HUD Hearts in start screen */
+.start-hud-hearts {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    font-size: 20px;
+    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.7));
+}
+
+.heart-pixel {
+    color: #e53e3e;
+    animation: heart-beat 1.5s infinite ease-in-out;
+}
+.heart-pixel.empty {
+    filter: grayscale(1) opacity(0.3);
+    animation: none;
+}
+
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Header Banner Container */
+.title-container {
+    text-align: center;
+    margin-top: 10px;
+    padding: 0 120px; /* Leave room for music button (left) and hearts (right) */
+}
+
+.pixel-title {
+    font-family: var(--pixel-font-title);
+    font-size: 32px;
+    line-height: 1.4;
+    color: #ffd8a8;
+    text-shadow: 
+        -3px -3px 0 #8c420e,  
+         3px -3px 0 #8c420e,
+        -3px  3px 0 #8c420e,
+         3px  3px 0 #8c420e,
+         4px  4px 0px rgba(0,0,0,0.6);
+    letter-spacing: 1px;
+}
+
+.pixel-subtitle {
+    font-family: var(--pixel-font-title);
+    font-size: 14px;
+    color: #ffd8a8;
+    margin-top: 16px;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* Characters Scene Overlay (Campfire, Hero, Cat) */
+.scene-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    height: 140px;
+    padding: 0 60px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.pixel-character {
+    width: 64px;
+    height: 80px;
+    filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.6));
+    animation: float 2s infinite ease-in-out;
+}
+
+.hero-blonde {
+    animation-delay: 0.2s;
+}
+
+.cat-black {
+    width: 60px;
+    height: 72px;
+    animation-delay: 0.6s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Campfire Render & Flicker Animation */
+.pixel-campfire {
+    width: 32px;
+    height: 36px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
+}
+
+.fire-log {
+    width: 24px;
+    height: 8px;
+    background-color: #8c420e;
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+    border: 2px solid #3d1d07;
+}
+
+.fire-flame {
+    width: 16px;
+    height: 24px;
+    background-color: #ff3c00;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 6px;
+    animation: flame-flicker 0.2s infinite alternate;
+    box-shadow: 
+        0 -4px 0 #ff9900,
+        0 -8px 0 #ffff00;
+}
+
+@keyframes flame-flicker {
+    0% {
+        transform: scaleY(1) scaleX(1);
+        background-color: #ff3c00;
+    }
+    100% {
+        transform: scaleY(1.2) scaleX(0.9);
+        background-color: #ff6600;
+    }
+}
+
+/* Menu Button Lists */
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* Buttons (Pill shaped orange buttons matching reference) */
+.pixel-btn {
+    font-family: var(--pixel-font-title);
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--retro-white);
+    background-color: var(--retro-orange);
+    border: 3px solid var(--retro-orange-dark);
+    padding: 10px 24px;
+    border-radius: 24px; /* Matches reference pill button */
+    cursor: pointer;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+    box-shadow: 0 4px 0 var(--retro-orange-dark), 0 6px 12px rgba(0,0,0,0.5);
+    transition: all 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pixel-btn:hover {
+    background-color: #e88d43;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--retro-orange-dark), 0 8px 16px rgba(0,0,0,0.6);
+}
+
+.pixel-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--retro-orange-dark), 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.music-btn {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 50; /* Above all screens */
+    font-size: 8px;
+    padding: 6px 12px;
+    height: 28px;
+    border-radius: 14px;
+    box-shadow: 0 2px 0 var(--retro-orange-dark);
+}
+
+/* Modal Dialog Popups */
+.pixel-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--retro-blue);
+    border: 4px solid var(--retro-white);
+    outline: 4px solid var(--retro-black);
+    box-shadow: 0 0 0 8px var(--retro-blue), 0 15px 30px rgba(0,0,0,0.7);
+    padding: 24px;
+    width: 80%;
+    max-width: 460px;
+    z-index: 20;
+    text-align: center;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dialog-title {
+    font-family: var(--pixel-font-title);
+    font-size: 14px;
+    color: var(--retro-yellow);
+    margin-bottom: 18px;
+}
+
+.dialog-content {
+    font-size: 20px;
+    color: var(--retro-white);
+    text-align: left;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.dialog-content p {
+    margin-bottom: 8px;
+}
+
+/* ---------------------------------------------------- */
+/* GAMEPLAY SCREEN DESIGN                               */
+/* ---------------------------------------------------- */
+
+.game-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(8, 10, 16, 0.85);
+    border: 3px solid var(--retro-white);
+    outline: 3px solid var(--retro-black);
+    padding: 10px 18px 10px 120px; /* Added 120px left padding to clear the music button */
+    margin-bottom: 16px;
+    font-family: var(--pixel-font-title);
+    font-size: 10px;
+    color: var(--retro-white);
+}
+
+.hud-label {
+    color: var(--retro-yellow);
+    margin-right: 6px;
+}
+
+.hud-value {
+    color: var(--retro-white);
+}
+
+.hud-home-btn {
+    font-size: 8px;
+    padding: 6px 12px;
+    height: 26px;
+    border-radius: 13px;
+    box-shadow: 0 2px 0 var(--retro-orange-dark);
+}
+
+#hearts-container {
+    display: flex;
+    gap: 4px;
+}
+
+/* RPG Dialog Text Box */
+.rpg-dialog-box {
+    background-color: rgba(8, 14, 38, 0.95);
+    border: 4px solid var(--retro-white);
+    outline: 4px solid var(--retro-black);
+    box-shadow: 0 0 0 4px rgba(8, 14, 38, 0.95), 0 8px 16px rgba(0,0,0,0.5);
+    padding: 16px;
+    margin-bottom: 16px;
+    color: #ffffff; /* Explicit white color for all dialog boxes */
+}
+
+.scenario-layout {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.scenario-image-frame {
+    width: 200px;
+    height: 120px;
+    border: 3px solid var(--retro-white);
+    outline: 3px solid var(--retro-black);
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: var(--retro-black);
+}
+
+.scenario-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#image-fallback-svg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--retro-blue);
+    padding: 8px;
+}
+
+.scenario-text-container {
+    flex-grow: 1;
+    font-size: 22px;
+    line-height: 1.4;
+    color: #ffffff !important;
+}
+
+/* Choice option buttons */
+.choices-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.choice-button {
+    font-family: var(--pixel-font-body);
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--retro-white);
+    background-color: rgba(8, 10, 16, 0.9);
+    border: 3px solid #4a5568;
+    padding: 12px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    display: flex;
+    align-items: center;
+}
+
+.choice-button:hover:not(:disabled) {
+    border-color: var(--retro-white);
+    background-color: var(--retro-blue);
+    transform: translateX(4px);
+}
+
+.choice-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Retro feedback pointer indicators */
+.choice-button.selected-correct {
+    border-color: var(--retro-green);
+    background-color: rgba(16, 76, 36, 0.8);
+}
+
+.choice-button.selected-incorrect {
+    border-color: var(--retro-orange);
+    background-color: rgba(116, 42, 42, 0.8);
+}
+
+/* Feedback box */
+.feedback-box {
+    animation: slideUp 0.3s ease-out;
+    position: relative;
+    padding-bottom: 24px;
+}
+
+.feedback-layout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.feedback-avatar {
+    font-size: 40px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.feedback-text-content h3 {
+    font-family: var(--pixel-font-title);
+    font-size: 11px;
+    color: var(--retro-yellow);
+    margin-bottom: 6px;
+}
+
+.feedback-text-content p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.next-btn {
+    position: absolute;
+    right: 16px;
+    bottom: -16px;
+}
+
+/* ---------------------------------------------------- */
+/* VICTORY & GAME OVER SCREENS                          */
+/* ---------------------------------------------------- */
+
+.end-card-box {
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    padding: 30px;
+}
+
+.end-avatar {
+    font-size: 64px;
+    margin-bottom: 12px;
+}
+
+.end-message {
+    font-size: 26px;
+    color: var(--retro-yellow);
+    margin: 12px 0;
+}
+
+.score-display-box {
+    background-color: var(--retro-black);
+    border: 2px dashed var(--retro-white);
+    padding: 16px;
+    margin: 16px 0 24px 0;
+}
+
+.end-details-text {
+    font-size: 18px;
+    color: #a0aec0;
+    margin-top: 8px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.text-link {
+    text-decoration: none;
+}
+
+/* Helper Utilities */
+.hidden {
+    display: none !important;
+}
+
+/* Keyframes */
+@keyframes popIn {
+    from { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Mobile Responsiveness adjusting console viewports */
+@media (max-width: 768px) {
+    #retro-game-cabinet {
+        aspect-ratio: auto;
+        min-height: 520px;
+    }
+    
+    .pixel-title {
+        font-size: 20px;
+    }
+    
+    .pixel-subtitle {
+        font-size: 10px;
+    }
+    
+    .scene-container {
+        padding: 0 20px;
+        height: 100px;
+    }
+    
+    .pixel-character {
+        width: 48px;
+        height: 60px;
+    }
+    
+    .scenario-layout {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .scenario-image-frame {
+        width: 100%;
+        height: 100px;
+    }
+    
+    .scenario-text-container {
+        font-size: 18px;
+    }
+    
+    .choice-button {
+        font-size: 18px;
+        padding: 8px 12px;
+    }
+    
+    .feedback-text-content p {
+        font-size: 16px;
+    }
+    
+    .game-hud {
+        padding: 10px 10px 10px 100px !important;
+    }
+    
+    .title-container {
+        padding: 0 50px !important;
+    }
+}
